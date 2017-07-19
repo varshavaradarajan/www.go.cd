@@ -164,6 +164,43 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
   </div>
 {{/inline}}
 
+{{#*inline "show-amis"}}
+  <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
+  <div class="amazone-ami">
+    <h3 class="subcaption">Amazon Linux based image for <b>GoCD Server</b></h3>
+    <h5 class="subcaption">Please log your feedback or issues on <a href="https://github.com/gocd/gocd-cloud">github</a> for the following</h5>
+    <div class="v-tabs all-releases">
+      <ul class="tabs">
+        <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
+            <li rel="tab-<%= release.gsub('.', '-') %>"<%= ' class="active"' if index == 0 %>><%= release %><%= ' (latest)' if index == 0 %></li>
+        <% end %>
+      </ul>
+      <div class="tab_container">
+        <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
+            <h3 class="tab-accordion_heading<%= ' d_active' if index == 0 %>" rel="tab-<%= release.gsub('.', '-')%>"><%= release %><%= ' (latest)' if index == 0 %></h3>
+            <div id="tab-<%= release.gsub('.', '-')%>" class="tab_content" style="display: block;">
+              <div class="content amis">
+                <h2>Demo AMI</h2>
+                <p>This AMI is for users to get started with GoCD. It contains both GoCD server and agent with an existing configuration.</p>
+                <%= partial "partials/amis/amis", locals: {per_release: data.amis[release]['demo'] }%>
+                <h2 class="server-amis">Server AMIs</h2>
+                <%= partial "partials/amis/amis", locals: {per_release: data.amis[release]['server'] }%>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+  </div>
+{{/inline}}
+
+  {{#*inline "show-docker"}}
+  <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
+    <span>foo</span>
+  </div>
+  {{/inline}}
+
 {{#*inline "show-server-and-agent-32-and-64-bit-installers"}}
   <div class="download-files">
     {{> show-file server type="server" display_name="Server" info="(64 bit JRE)" os=../../installer_type}}
@@ -214,38 +251,10 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
       {{> show-releases-for-installer-type installer_type="rpm"     heading="RPM"     tab_id="tab-redhat"}}
       <h3 class="tab-accordion_heading" rel="tab-zip">Zip</h3>
       {{> show-releases-for-installer-type installer_type="generic" heading="Zip" tab_id="tab-zip"}}
-
-       <h3 class="tab-accordion_heading" rel="tab-ami">Zip</h3>
-      <div class="amazone-ami">
-        <h3 class="subcaption">Amazon Linux based image for <b>GoCD Server</b></h3>
-        <h5 class="subcaption">Please log your feedback or issues on <a href="https://github.com/gocd/gocd-cloud">github</a> for the following</h5>
-        <div class="v-tabs all-releases">
-          <ul class="tabs">
-            <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
-            <li rel="tab-<%= release.gsub('.', '-') %>"<%= ' class="active"' if index == 0 %>><%= release %><%= ' (latest)' if index == 0 %></li>
-            <% end %>
-          </ul>
-          <div class="tab_container">
-            <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
-            <h3 class="tab-accordion_heading<%= ' d_active' if index == 0 %>" rel="tab-<%= release.gsub('.', '-')%>"><%= release %><%= ' (latest)' if index == 0 %></h3>
-            <div id="tab-<%= release.gsub('.', '-')%>" class="tab_content" style="display: block;">
-              <div class="content amis">
-                <h2>Demo AMI</h2>
-                <p>This AMI is for users to get started with GoCD. It contains both GoCD server and agent with an existing configuration.</p>
-                <%= partial "partials/amis/amis", locals: {per_release: data.amis[release]['demo'] }%>
-                <h2 class="server-amis">Server AMIs</h2>
-                <%= partial "partials/amis/amis", locals: {per_release: data.amis[release]['server'] }%>
-              </div>
-            </div>
-            <% end %>
-          </div>
-        </div>
-
-      </div>
-
-       <h3 class="tab-accordion_heading" rel="tab-docker">Zip</h3>
-     dfhgsdgsfdgsdfg
-
+      <h3 class="tab-accordion_heading" rel="tab-ami">AMIs</h3>
+      {{> show-amis installer_type="ami" tab_id="tab-ami"}}
+      <h3 class="tab-accordion_heading" rel="tab-docker">Docker</h3>
+      {{> show-docker installer_type="docker" tab_id="tab-docker"}}
     </div>
 
   <div id="verify-checksum-message"></div>
