@@ -197,8 +197,46 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
 
   {{#*inline "show-docker"}}
   <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
-    <span>foo</span>
+    <div class="latest">
+      {{#with latest_release}}
+      <div class="go-release {{display_version}}">
+        <span class="version">{{display_version}}</span>
+      </div>
+      <h3>GoCD Server Docker Image</h3>
+      {{> show-docker-release type="server"}}
+      <h3>GoCD Agent Docker Images</h3>
+      <div>dropdown</div>
+      {{> show-docker-release type="agent-alpine-3.5"}}
+      {{/with}}
+    </div>
+    <div class="other-releases">
+      <button class="btn-release" analytics-label="show-old-releases"><span>Show</span> old releases</button>
+    </div>
+    <div class="old-release">
+      {{#each all_other_releases}}
+      <div class="row go-release {{display_version}}">
+        <div class="col-sm-3 ">
+          <span class="version">{{display_version}}</span>
+        </div>
+
+        <div class="col-sm-9 ">
+          <div class="files">
+            <h3>GoCD Server Docker Image</h3>
+            {{> show-docker-release type="server"}}
+            <h3>GoCD Agent Docker Images</h3>
+            <div>dropdown</div>
+            {{> show-docker-release type="agent-alpine-3.5"}}
+          </div>
+        </div>
+
+      </div>
+      {{/each}}
+    </div>
   </div>
+  {{/inline}}
+
+  {{#*inline "show-docker-release"}}
+    <span>docker pull gocd/gocd-{{type}}:v{{display_version}}</span>
   {{/inline}}
 
 {{#*inline "show-server-and-agent-32-and-64-bit-installers"}}
