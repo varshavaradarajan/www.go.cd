@@ -7,7 +7,7 @@ jQuery(document).ready(function() {
 
     $( ".download-nav li" ).on( "click", function() {
     
-    $('#select-release').each(function(){
+    $('.select-dropdwon').each(function(){
         var $this = $(this), numberOfOptions = $(this).children('option').length;
       
         $this.addClass('select-hidden'); 
