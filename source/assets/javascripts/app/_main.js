@@ -92,6 +92,39 @@ jQuery(document).ready(function($) {
 });
 
 
+// download sidebar navigation for mobile
+
+jQuery(document).ready(function($) {
+
+  enquire.register("screen and (max-width: 992px)", {
+    match : function() {
+      $(".get-start-btn , .sidebar-nav  h5 ").click(function() {
+        $(".sidebar-nav ").slideToggle();
+      });
+      $(window).scroll(function () {
+        var sc = $(window).scrollTop()
+        if (sc > 58) {
+          $(".get-start-btn").addClass("fixed")
+        } else {
+          $(".get-start-btn").removeClass("fixed")
+        }
+      });
+
+      $('nav.sidebar-nav  ul.verticalnav > li.dropdown ul a').click(function(e){
+        e.preventDefault();
+        $(".get-start-btn").removeClass("fixed")
+        $(".sidebar-nav ").slideToggle();
+      });
+
+
+    },
+    unmatch : function() {
+        // Hide the sidebar
+      }
+    });
+});
+
+
 // back to top
 
 $(document).ready(function(){

@@ -1,8 +1,4 @@
 .download-area {
-  // background: url(/assets/images/texture-bg.jpg) no-repeat center top;
-  background: url(/assets/images/texture-bg-grey.jpg) no-repeat center top;
-  // background: url(/assets/images/brickwall.png) repeat 0 0;
-  background-size: cover;
   padding: 50px 0 0;
   margin-top: 30px;
   @include clearfix;
@@ -17,7 +13,6 @@
   }
 
   .info {
-
     text-align: center;
   }
 
@@ -74,30 +69,14 @@
 .files {
   overflow: hidden;
   position: relative;
-
-  @media (min-width:$screen-sm) {
-    padding-top: 16px;
-    width: 500px;
-  }
-
-  @media (min-width:$screen-md) {
-    width: 695px;
-  }
-
-  @media (min-width:$screen-lg) {
-    width: 840px;
-  }
+  padding-top: 20px;
 
   .file {
     float: left;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 
     .others & {
       border-bottom: 1px solid #ccc;
-    }
-
-    .name {
-      float: left;
     }
 
     .btn {
@@ -110,6 +89,7 @@
       background: transparent;
       cursor: pointer;
       margin-top: 4px;
+      padding-left: 0;
 
       &:active {
         outline: 0;
@@ -122,24 +102,29 @@
       font-size: 13px;
     }
 
+    &.server {
+      margin-right: 50px;
+    }
+
   }
 
   span.bit {
     position: absolute;
-    top: 102%;
+    top: -59%;
     color: #333;
-    background: #e6e6e6;
-    padding: 5px 9px;
-    transform: translateX(-50%);
-    font-size: 12px;
-    left: 50%;
-    border-radius: 0px 0px 3px 3px;
+    padding: 1px 6px;
+    font-size: 11px;
+    text-align: right;
+    border: 1px solid #94399E;
+    display: block;
+    left: 24%;
+    border-radius: 3px 3px 0 0;
   }
 
   .server32bit,
   .server {
     @media (max-width:$screen-xs-min) {
-      margin-bottom: 50px;
+      margin-bottom: 35px;
     }
 
     @media (min-width:$screen-tablet) {
@@ -151,7 +136,7 @@
         span {
           font-size: 16px;
           font-family: 'Open Sans', sans-serif;
-          color: #fff;
+          color: $primary-color;
           margin-left: 10px;
 
           span {
@@ -180,7 +165,7 @@
         span {
           font-size: 16px;
           font-family: 'Open Sans', sans-serif;
-          color: #fff;
+          color: $primary-color;
           margin-left: 10px;
 
           span {
@@ -193,7 +178,9 @@
             border-radius: 4px;
             font-size: 9px;
           }
+
         }
+
       }
 
     }
@@ -215,20 +202,11 @@
   padding: 10px;
   border-radius: 3px;
   background: #f5f5f5;
+  clear: both;
+  margin-bottom: 20px;
 
   @media (max-width:$screen-sm-min) {
     float: left
-  }
-
-  @media (min-width:$screen-md) {
-    position: absolute;
-    top: 16px;
-    right: 0;
-    width: 212px;
-  }
-
-  @media (min-width:$screen-md) {
-    width: 300px;
   }
 
 }
@@ -363,7 +341,6 @@
     font-size: 12px;
     padding: 0px 10px;
     position: relative;
-    // left: 0;
     margin-left: 0;
     color: #777;
     z-index: 1;
@@ -397,65 +374,22 @@
 }
 
 .version {
-  position: relative;
-  background: #fff;
-  border: 1px solid #ccc;
-  height: 42px;
-  line-height: 40px;
-  display: block;
-  margin: 16px 0 20px;
-  width: 120px;
-  text-align: center;
-  color: #555;
-  font-size: 16px;
+  background: url(../images/version-bg.png) no-repeat center top;
+  display: inline-block;
+  width: 86px;
+  padding: 0 0 0 10px;
+  height: 30px;
+  font-size: 14px;
+  line-height: 30px;
+  font-weight: 500;
+  float: left;
+  margin-right: 30px;
+  margin-top: 20px;
 
-  @media (min-width:$screen-sm) {
-    float: left;
-    width: 140px;
-    margin-right: 50px;
+  @media (max-width:$screen-lg-desktop) {
   }
 
-  @media (min-width:$screen-md) {
-    margin-right: 101px;
-  }
-
-  @media (min-width:$screen-md) {
-    margin-right: 154px;
-  }
-
-  &:after,
-  &:before {
-    @media (min-width:$screen-tablet) {
-      left: 100%;
-      top: 50%;
-      border: solid transparent;
-      content: " ";
-      height: 0;
-      width: 0;
-      position: absolute;
-      pointer-events: none;
-    }
-
-  }
-
-  &:after {
-    @media (min-width:$screen-tablet) {
-      border-color: rgba(255, 255, 255, 0);
-      border-left-color: #ffffff;
-      border-width: 20px;
-      margin-top: -20px;
-    }
-
-  }
-
-  &:before {
-    @media (min-width:$screen-tablet) {
-      border-color: rgba(204, 204, 204, 0);
-      border-left-color: #cccccc;
-      border-width: 21px;
-      margin-top: -21px;
-    }
-
+  @media (min-width:$screen-lg-desktop) {
   }
 
 }
@@ -471,6 +405,91 @@
 
   span {
     display: block;
+  }
+
+}
+
+.help-links {
+  list-style-type: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+  font-size: 14px;
+
+  a {
+    &:after {
+      content: "";
+      background: url(/assets/images/external-link.svg) no-repeat center top;
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      margin-left: 5px;
+    }
+
+  }
+
+}
+
+nav.download-nav {
+  margin-top: 0;
+}
+
+#downloads {
+  overflow: hidden;
+
+  .btn-primary {
+    color: $primary-color;
+    background-color: #ffffff;
+    border-color: $primary-color;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background: $primary-color;
+      color: #fff;
+      transition: all 0.2s ease-in-out;
+
+      span {
+        color: #fff;
+      }
+
+    }
+
+  }
+
+}
+
+.go-release {
+  border-bottom: 1px dashed #e7e7e7;
+}
+
+nav.sidebar-nav {
+  &.download-nav {
+    > ul > li.dropdown {
+      position: relative;
+      background: #333;
+    }
+    ul{
+      border-bottom:0;
+      li{
+        ul{
+          li{
+            a{
+              background:#e5e5e5;
+              border-bottom:1px solid #ccc;
+              &.active{
+                background:#ccc;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .verticalnav{
+      >li:first-child{
+        border-radius: 6px 6px 0 0;
+      }
+    }
+
   }
 
 }

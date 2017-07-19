@@ -22,18 +22,18 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
             <li class="dropdown open">
               <a href="#">OS Types</a>
               <ul>
-                <li><%= link_to "RPM/YUM", "#tab-redhat", {"class" => "active"} %></li>
-                <li><%= link_to "Debian/APT", "#tab-debian" %></li>
-                <li><%= link_to "Zip" , "#tab-zip"  %></li>
-                <li><%= link_to "Windows", "#tab-windows"  %></li>
-                <li><%= link_to "OSX" , "#tab-osx" %></li>
+                <li><%= link_to "RPM/YUM", "#rpm", {"class" => "active"} %></li>
+                <li><%= link_to "Debian/APT", "#rpm" %></li>
+                <li><%= link_to "Zip" , "#rpm"  %></li>
+                <li><%= link_to "Windows", "#rpm"  %></li>
+                <li><%= link_to "OSX" , "#rpm" %></li>
               </ul>
             </li>
             <li class="dropdown open" %>
               <a href="#">Cloud Providers</a>
               <ul>
-                <li><%= link_to "Amazon AMI" , "#tab-ami" %></li>
-                <li><%= link_to "Docker" , "#tab-docker" %></li>
+                <li><%= link_to "Amazon AWS" , "#rpm" %></li>
+                <li><%= link_to "Docker" , "#rpm" %></li>
               </ul>
             </li>
           </ul>
@@ -41,76 +41,12 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
       </div>
 
       <div class="col-sm-8 col-md-6">
-      <script id="verify-checksum-message-template" type="text/x-handlebars-template">
-<div class="verify-checksum-message">
-  <div class="content">
-    <button class="close-message">X</button>
-    <p>You can verify the checksum on Linux or Mac OSX by doing this:</p>
-    <div class="code">
-      <p class="prompts">
-        user@shell: <br/>
-        user@shell: <br/>
-        user@shell: <br/>
-      </p>
-      <p class="commands">
-        CHECK="{{sha256sum}}"<br/>
-        echo "$CHECK&nbsp;&nbsp;{{filename}}" &gt; verify.sha256<br/>
-        sha256sum -c verify.sha256<br/>
-      </p>
-      <p class="results">
-        {{filename}}: OK
-      </p>
-      <p>
-        On Windows, you will have to use a third-party utility like <a target="_blank" href="http://code.kliu.org/misc/hashutils/">HashUtils</a>
-        or <a target="_blank" href="https://support.microsoft.com/en-us/kb/841290">fciv</a>. The values you'd be looking for are:
-      </p>
-      <p class="results">
-        File: {{filename}}<br/>
-        MD5 sum: {{md5sum}}<br/>
-        SHA1 sum: {{sha1sum}}<br/>
-        SHA256 sum: {{sha256sum}}<br/>
-      </p>
-    </div>
-  </div>
-</div>
-</script>
-
-
-
-
-      <div id="downloads">
-  <div class="container">
-    <div class="load-message">
-      <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
-      <span> Please wait. Fetching information about download ...</span>
-    </div>
-
-
-
-
-  </div>
-</div> 
-
-
-
+        <div id="rpm">
+          {{> show-releases-for-installer-type installer_type="rpm"     heading="RPM"     tab_id="tab-redhat"}}
+        </div>
       </div>
 
       <div class="col-sm-4 col-md-3">
-        
-<ul class="help-links">
-  <li> <a href="#">release notes</a></li>
-  <li> <a href="#">System requirements</a></li>
-  <li> <a href="#">Server Installation Instructions</a></li>
-  <li> <a href="#">Agent Installation Instructions</a></li>
-</ul>
-
-<p>If you need help downloading, installing or using GoCD please join the <a href="#">GoCD Users Google Group</a>.</p>
-      </div>
-    </div>
-  </div>
-</main>
-
-
 
 <script id="download-revisions-template" type="text/x-handlebars-template">
 {{#*inline "show-releases-for-installer-type"}}
@@ -128,7 +64,6 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
                 There are two flavors of Server and Agent installers for Windows, one packaged with 64 bit JRE and the other
                 with 32 bit JRE. We recommend using a Server with 64 bit JRE and an Agent with 32 bit JRE.
               </div>
-              {{elsif }}
             {{else}}
               {{> show-server-and-agent-installer}}
             {{/if}}
@@ -182,6 +117,12 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
   </div>
 {{/inline}}
 
+{{#*inline "show-tab-header"}}
+<li rel="{{{tab_id}}}">
+  <span class="os-logo"><img src="{{{image}}}" alt="{{{desc}}}" /></span>
+  <span class="desc">{{{desc}}}</span>
+</li>
+{{/inline}}
 {{#*inline "show-file"}}
 <div class="{{{type}}} file">
 <div class="name">
@@ -199,10 +140,21 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
 </div>
 </div>
 {{/inline}}
-<div class="download-area1">
-    <p class="info">Latest supported release (<span id="latest-version">{{latest_version}}</span>) <a href="../releases/#latest" class="btn btn-link">See what's new</a> </p>
+<div class="download-area">
+  <div class="container">
+    <h2 class="sub-title">Choose your OS &amp; download</h2>
+    <p class="info">Latest supported release (<span id="latest-version">{{latest_version}}</span>) <a href="../releases/#latest" class="btn btn-dark">See what's new</a> </p>
+    <ul class="tabs os">
+      {{> show-tab-header tab_id="tab-windows" image="<%= image_path "download/windows.png" %>" desc="Windows"}}
+      {{> show-tab-header tab_id="tab-osx" image="<%= image_path "download/osx.png" %>" desc="OSX"}}
+      {{> show-tab-header tab_id="tab-debian" image="<%= image_path "download/debian.png" %>" desc="Debian"}}
+      {{> show-tab-header tab_id="tab-redhat" image="<%= image_path "download/redhat.png" %>" desc="RPM"}}
+      {{> show-tab-header tab_id="tab-zip" image="<%= image_path "download/package.png" %>" desc="Zip"}}
+    </ul>
+  </div>
 </div>
 <div class="os-tab-content">
+  <div class="container">
     <div class="tab_container">
       <h3 class="tab-accordion_heading" rel="tab-windows">Windows</h3>
       {{> show-releases-for-installer-type installer_type="win"     heading="Windows" tab_id="tab-windows"}}
@@ -214,66 +166,32 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
       {{> show-releases-for-installer-type installer_type="rpm"     heading="RPM"     tab_id="tab-redhat"}}
       <h3 class="tab-accordion_heading" rel="tab-zip">Zip</h3>
       {{> show-releases-for-installer-type installer_type="generic" heading="Zip" tab_id="tab-zip"}}
-
-       <h3 class="tab-accordion_heading" rel="tab-ami">Zip</h3>
-      <div class="amazone-ami">
-        <h3 class="subcaption">Amazon Linux based image for <b>GoCD Server</b></h3>
-        <h5 class="subcaption">Please log your feedback or issues on <a href="https://github.com/gocd/gocd-cloud">github</a> for the following</h5>
-        <div class="v-tabs all-releases">
-          <ul class="tabs">
-            <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
-            <li rel="tab-<%= release.gsub('.', '-') %>"<%= ' class="active"' if index == 0 %>><%= release %><%= ' (latest)' if index == 0 %></li>
-            <% end %>
-          </ul>
-          <div class="tab_container">
-            <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
-            <h3 class="tab-accordion_heading<%= ' d_active' if index == 0 %>" rel="tab-<%= release.gsub('.', '-')%>"><%= release %><%= ' (latest)' if index == 0 %></h3>
-            <div id="tab-<%= release.gsub('.', '-')%>" class="tab_content" style="display: block;">
-              <div class="content amis">
-                <h2>Demo AMI</h2>
-                <p>This AMI is for users to get started with GoCD. It contains both GoCD server and agent with an existing configuration.</p>
-                <%= partial "partials/amis/amis", locals: {per_release: data.amis[release]['demo'] }%>
-                <h2 class="server-amis">Server AMIs</h2>
-                <%= partial "partials/amis/amis", locals: {per_release: data.amis[release]['server'] }%>
-              </div>
-            </div>
-            <% end %>
-          </div>
-        </div>
-
-      </div>
-
-       <h3 class="tab-accordion_heading" rel="tab-docker">Zip</h3>
-     dfhgsdgsfdgsdfg
-
     </div>
-
+  </div>
   <div id="verify-checksum-message"></div>
 </div>
 </script>
-
-<script>
-// <![CDATA[
-jQuery(document).ready(function($) {
-  var isExperimental = R.any(R.equals('experimental=true'), window.location.search.substr(1).split('&'));
-  showDownloadLinks({ typeOfInstallersToShow: isExperimental ? "experimental" : "stable"})
-    .then(function() {
-      startTabContainer($);
-    }).then(function(){
-      var package="zip";
-      var appVersion = navigator.appVersion;
-
-      if (appVersion.indexOf("Win")!=-1) package="windows";
-      if (appVersion.indexOf("Mac")!=-1) package="osx";
-      if (appVersion.indexOf("Debian")!=-1) package="debian";
-      if (appVersion.indexOf("Ubuntu")!=-1) package="debian";
-      if (appVersion.indexOf("RedHat")!=-1) package="redhat";
-      if (appVersion.indexOf("CentOS")!=-1) package="redhat";
-
-      $('[rel=tab-' + package + ']').click();
-    });
-
-  setupShowVerifyChecksumMessage();
-});
-// ]]>
+</main>
 </script>
+    
+<div id="downloads">
+  <div class="container">
+    <div class="load-message">
+      <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
+      <span> Please wait. Fetching information about download ...</span>
+    </div>
+  </div>
+</div>
+
+<ul class="help-links">
+  <li> <a href="#">release notes</a></li>
+  <li> <a href="#">System requirements</a></li>
+  <li> <a href="#">Server Installation Instructions</a></li>
+  <li> <a href="#">Agent Installation Instructions</a></li>
+</ul>
+
+<p>If you need help downloading, installing or using GoCD please join the <a href="#">GoCD Users Google Group</a>.</p>
+      </div>
+    </div>
+  </div>
+</main>

@@ -103,3 +103,101 @@ var setupShowVerifyChecksumMessage = (function($) {
     });
   };
 })(jQuery);
+
+
+
+
+
+
+//left side navigation
+
+
+jQuery(document).ready(function($) {
+  var highlightCorrectNavigationSectionBasedOnLocation = function() {
+    $('nav.download-nav a').removeClass('active');
+    $("nav.download-nav a[data-section='" + window.location.hash + "']").addClass('active');
+  };
+
+
+    $(".download-nav li a").click(function() {
+      $(".tab_content").hide();
+      var activeTab = $(this).attr("href");
+      console.log(activeTab);
+      $(activeTab).fadeIn();
+      $(".download-nav li a").removeClass("active");
+      $(this).addClass("active");
+
+      $(".tab-accordion_heading").removeClass("d_active");
+      $(".tab-accordion_heading[rel^='"+activeTab+"']").addClass("d_active");
+
+      // var target = $('.tabs');
+      // $('html,body').animate({
+      //   scrollTop: target.offset().top + -100
+      // }, 1000);
+  });
+
+  // var smoothScrollTo = function(sectionId) {
+  //   $('html, body').animate({
+  //     scrollTop: $(sectionId).offset().top - 100
+  //   }, 500, function() {
+  //     window.location.hash = sectionId;
+  //     highlightCorrectNavigationSectionBasedOnLocation();
+  //   });
+  // };
+
+  // var setupSidebar = function() {
+  //   $('nav.download-nav ul.verticalnav > li.dropdown > a').click(function(e){
+  //     e.preventDefault();
+  //     var isOpen = $(this).parent().hasClass('open');
+  //     $('nav.download-nav ul.verticalnav > li.dropdown > ul').hide();
+  //     $('nav.download-nav ul.verticalnav > li.dropdown').removeClass('open');
+  //     if(!isOpen) {
+  //       $(this).parent().addClass('open');
+  //       $(this).parent().find('ul').show();  
+  //     }
+  //   });
+  // };
+
+  // var stickySidebar = function() {
+  //   $('nav.download-nav').affix({
+  //     offset: {
+  //       top: function() {
+  //         return (this.top = $('header').outerHeight(true))
+  //       },
+  //       bottom: function () {
+  //         return (this.bottom = $('footer').outerHeight(true))
+  //       }
+  //     }
+  //   });
+  // };
+
+  // var setupSmoothScrollForSamePageLinks = function() {
+  //   $("body").on("click", "a[href^='#'][href!='#'], a[data-dest]", function(evt) {
+  //     var currentPage = window.location.pathname.replace(/\/$/, '');
+  //     var section = $(this).data('section') || $.attr(this, 'href');
+  //     var dest = $(this).data('dest') || currentPage;
+  //     var targetIsInSamePage = $(this).data('is-local') === true;
+
+  //     if (targetIsInSamePage) {
+  //       smoothScrollTo(section);
+  //     } else {
+  //       window.location.href = dest + section;
+  //     }
+  //     evt.preventDefault();
+  //   });
+  // };
+
+  // setupSidebar();
+  // setupSmoothScrollForSamePageLinks();
+  // highlightCorrectNavigationSectionBasedOnLocation();
+
+  // enquire.register("screen and (min-width: 992px) and (min-height: 600px)", {
+  //   match : function() {
+  //     stickySidebar();
+  //   },  
+
+  // });
+});
+
+
+
