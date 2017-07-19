@@ -6,7 +6,7 @@ var startTabContainer = function($) {
   $(".tab_container .tab-accordion_heading:first").addClass("d_active");
 
   //tab mode
-  $("ul.tabs li").click(function() {
+  $("ul.tabs li , ul.items li").click(function() {
     $(".tab_content").hide();
     var activeTab = $(this).attr("rel");
     $("#"+activeTab).fadeIn();

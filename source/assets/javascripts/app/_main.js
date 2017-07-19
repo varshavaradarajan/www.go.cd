@@ -192,4 +192,8 @@ jQuery(document).ready(function($) {
 
 $(document).ready(function(){
     $('.chocolat-parent').Chocolat();
+
 });
+
+
+

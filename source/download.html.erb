@@ -79,16 +79,10 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
 
 
       <div id="downloads">
-  <div class="container">
     <div class="load-message">
       <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
       <span> Please wait. Fetching information about download ...</span>
     </div>
-
-
-
-
-  </div>
 </div> 
 
 
@@ -167,8 +161,24 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
 {{#*inline "show-amis"}}
   <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
   <div class="amazone-ami">
-    <h3 class="subcaption">Amazon Linux based image for <b>GoCD Server</b></h3>
-    <h5 class="subcaption">Please log your feedback or issues on <a href="https://github.com/gocd/gocd-cloud">github</a> for the following</h5>
+    <h3 class="subcaption">Amazon Linux based image for GoCD Server</h3>
+    <p class="subcaption">Please log your feedback or issues on <a href="https://github.com/gocd/gocd-cloud">github</a> for the following</p>
+
+    <h4>Demo AMI</h4>
+    <p class="small">This AMI is for users to get started with GoCD. It contains both GoCD server and agent with an existing configuration.</p>
+   
+
+
+<select id="select-release">
+    <option value="hide">Select release</option>
+    <option value="january">January</option>
+    <option value="february">February</option>
+    <option value="march">March</option>
+    <option value="april">April</option>
+    <option value="may">May</option>
+</select> 
+
+
     <div class="v-tabs all-releases">
       <ul class="tabs">
         <%  data.amis.keys.sort.reverse.collect(&:to_s).each_with_index do |release, index| %>
