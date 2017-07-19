@@ -250,22 +250,20 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
     <h3>GoCD Server Docker Image</h3>
     {{> show-docker-command type="server"}}
     <h3>GoCD Agent Docker Images</h3>
-    <select class="select-dropdwon">
-    <option value="hide">Select release</option>
-    <option value="agent-alpine-3.5">agent-alpine-3</option>
-    <option value="agent-ubuntu-12.04">agent-ubuntu-1</option>
-    <option value="agent-ubuntu-14.04">agent-ubuntu-1</option>
-    <option value="agent-ubuntu-16.04">agent-ubuntu-1</option>
-    <option value="agent-debian-7">agent-debian-7</option>
-    <option value="agent-debian-6">agent-debian-6</option>
-    <option value="agent-centos-6">agent-centos-6</option>
-    <option value="agent-centos-7">agent-centos-7</option>
-  </select>
+  <ul class="docker-agents">
   {{> show-docker-command type="agent-alpine-3.5"}}
+  {{> show-docker-command type="agent-ubuntu-12.04"}}
+  {{> show-docker-command type="agent-ubuntu-14.04"}}
+  {{> show-docker-command type="agent-ubuntu-16.04"}}
+  {{> show-docker-command type="agent-centos-6"}}
+  {{> show-docker-command type="agent-centos-7"}}
+  {{> show-docker-command type="agent-debian-7"}}
+  {{> show-docker-command type="agent-debian-8"}}
+  </ul>
   {{/inline}}
 
   {{#*inline "show-docker-command"}}
-  <span><a href="https://hub.docker.com/r/gocd/gocd-{{type}}">{{type}}</a>docker pull gocd/gocd-{{type}}:v{{display_version}}</span>
+  <li><a href="https://hub.docker.com/r/gocd/gocd-{{type}}">{{type}}</a>docker pull gocd/gocd-{{type}}:v{{display_version}}</li>
   {{/inline}}
 
 {{#*inline "show-server-and-agent-32-and-64-bit-installers"}}
