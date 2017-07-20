@@ -243,13 +243,9 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
         <div class="col-sm-3 ">
           <span class="version">{{display_version}}</span>
         </div>
-
         <div class="col-sm-9 ">
-          <div class="files">
             {{> show-docker-release}}
-          </div>
         </div>
-
       </div>
       {{/each}}
     </div>
@@ -257,23 +253,30 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
   {{/inline}}
 
   {{#*inline "show-docker-release"}}
+  <div class="files">
     <h3>GoCD Server Docker Image</h3>
+    <ul class="docker-list server">
     {{> show-docker-command type="server"}}
-    <h3>GoCD Agent Docker Images</h3>
-  <ul class="docker-agents">
-  {{> show-docker-command type="agent-alpine-3.5"}}
-  {{> show-docker-command type="agent-ubuntu-12.04"}}
-  {{> show-docker-command type="agent-ubuntu-14.04"}}
-  {{> show-docker-command type="agent-ubuntu-16.04"}}
-  {{> show-docker-command type="agent-centos-6"}}
-  {{> show-docker-command type="agent-centos-7"}}
-  {{> show-docker-command type="agent-debian-7"}}
-  {{> show-docker-command type="agent-debian-8"}}
-  </ul>
-  {{/inline}}
+    </ul>
 
+    <h3>GoCD Agent Docker Images</h3>
+       <ul class="docker-list agents">
+    {{> show-docker-command type="agent-alpine-3.5"}}
+    {{> show-docker-command type="agent-ubuntu-12.04"}}
+    {{> show-docker-command type="agent-ubuntu-14.04"}}
+    {{> show-docker-command type="agent-ubuntu-16.04"}}
+    {{> show-docker-command type="agent-centos-6"}}
+    {{> show-docker-command type="agent-centos-7"}}
+    {{> show-docker-command type="agent-debian-7"}}
+    {{> show-docker-command type="agent-debian-8"}}
+    </ul>
+</div>
+
+  {{/inline}}
   {{#*inline "show-docker-command"}}
-  <li><a href="https://hub.docker.com/r/gocd/gocd-{{type}}">{{type}}</a>docker pull gocd/gocd-{{type}}:v{{display_version}}</li>
+  <li><a href="https://hub.docker.com/r/gocd/gocd-{{type}}">{{type}}</a>
+  <span class="cocmmand">docker pull gocd/gocd-{{type}}:v{{display_version}}</span>
+  </li>
   {{/inline}}
 
 {{#*inline "show-server-and-agent-32-and-64-bit-installers"}}

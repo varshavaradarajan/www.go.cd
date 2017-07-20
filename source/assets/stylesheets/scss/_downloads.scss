@@ -467,50 +467,97 @@ nav.sidebar-nav {
       position: relative;
       background: #333;
     }
-    ul{
-      border-bottom:0;
-      li{
-        ul{
-          li{
-            a{
-              background:#e5e5e5;
-              border-bottom:1px solid #ccc;
-              &.active{
-                background:#ccc;
+
+    ul {
+      border-bottom: 0;
+
+      li {
+        ul {
+          li {
+            a {
+              background: #e5e5e5;
+              border-bottom: 1px solid #ccc;
+
+              &.active {
+                background: #ccc;
               }
+
             }
+
           }
+
         }
+
       }
+
     }
 
-    .verticalnav{
-      >li:first-child{
+    .verticalnav {
+      >li:first-child {
         border-radius: 6px 6px 0 0;
       }
+
     }
 
   }
 
 }
 
-
-
 #downloads {
-  .dropdown{
-      display:inline-block;
-  z-index:5;
-    .items{
-      li{
-        border-bottom: 1px solid #e5e5e5 ;
-        &.active{
-          color:$primary-color;
-          font-weight:500;
+  .dropdown {
+    display: inline-block;
+    z-index: 5;
+
+    .items {
+      li {
+        border-bottom: 1px solid #e5e5e5;
+
+        &.active {
+          color: $primary-color;
+          font-weight: 500;
         }
+
       }
+
     }
+
   }
-  .all-releases .tab_container{
-    width:auto;
+
+  .all-releases .tab_container {
+    width: auto;
   }
+
+}
+
+.docker {
+  h3 {
+    font-size: 15px;
+    margin: 0 0 20px 0;
+    font-weight:500;
+  }
+
+  .docker-list {
+    list-style-type: none;
+    margin: 0 0 20px 0;
+    padding: 0;
+
+    li {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    a {
+      display: block;
+    }
+
+  }
+
+  .cocmmand {
+    background: #efefef;
+    padding: 5px 10px;
+    font-size: 13px;
+    display: block;
+    font-family: monospace;
+  }
+
 }
