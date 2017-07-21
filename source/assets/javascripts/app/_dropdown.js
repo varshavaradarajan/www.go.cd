@@ -7,12 +7,13 @@ jQuery(document).ready(function() {
 
     $( ".download-nav li" ).on( "click", function() {
     
-    $('.select-dropdwon').each(function(){
+    $('.select-dropdown').each(function(){
         var $this = $(this), numberOfOptions = $(this).children('option').length;
       
         $this.addClass('select-hidden'); 
         $this.wrap('<div class="select"></div>');
-        $this.after('<div class="select-styled"></div>');
+        var id_of_div = $this.attr('id');
+        $this.after('<div class="select-styled" id="'+id_of_div+'"></div>');
 
         var $styledSelect = $this.next('div.select-styled');
         $styledSelect.text($this.children('option').eq(0).text());
@@ -40,9 +41,16 @@ jQuery(document).ready(function() {
       
         $listItems.click(function(e) {
             e.stopPropagation();
+            // var go_version = $styledSelect.attr('id');
+            var previous_text = $styledSelect.text();
             $styledSelect.text($(this).text()).removeClass('active');
             $this.val($(this).attr('rel'));
             $list.hide();
+            var s = "table ." + previous_text;
+            var b = "table ." + $styledSelect.text();
+
+            $styledSelect.closest('.table-c').find(s).hide();
+            $styledSelect.closest('.table-c').find(b).show();
             //console.log($this.val());
         });
       
@@ -50,8 +58,14 @@ jQuery(document).ready(function() {
             $styledSelect.removeClass('active');
             $list.hide();
         });
-
     });
+
+
+    $(".ap-northeast-1").each(function () {
+        var $this = $(this);
+        $this.removeClass('hidden');
+    });
+
     });
 
 });

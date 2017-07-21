@@ -65,24 +65,27 @@ var showDownloadLinks = (function($) {
       return segmentsA.length - segmentsB.length;
     }
 
-    var showReleases = function(data) {
-      var releases = R.compose(releasesLessThanAYearOld, R.sort(compareVersions), R.map(addURLToFiles), R.map(addDisplayVersion))(data);
-
+    var showReleases = function(data1, data2) {
+      var releases = R.compose(releasesLessThanAYearOld, R.sort(compareVersions), R.map(addURLToFiles), R.map(addDisplayVersion))(data1[0]);
+      var amiReleases = R.sortBy(R.prop('go_version'))(data2[0]).reverse();
       var template = Handlebars.compile($("#download-revisions-template").html());
       $("#downloads").html(template({
         latest_release     : R.head(releases),
         all_other_releases : R.tail(releases),
-        latest_version     : releases[0].go_version
+        latest_version     : releases[0].go_version,
+        latest_ami_release: R.head(amiReleases),
+        all_other_ami_releases: R.tail(amiReleases)
+
       }));
     };
 
     var showFailureMessage = function(error) {
       $("#downloads").html('<p class="not-loaded">Sorry. Something went wrong and we could not list the download links. \
-        Please report <a href="https://github.com/gocd/www.go.cd/issues">this issue</a>.</p>')
+        Please report <a href="https://github.com/gocd/www.go.cd/issues">this issue</a>.</p>');
       console.log("Error: " + error);
     };
 
-    return $.getJSON(settings.download_info_url)
+    return $.when($.getJSON(settings.download_info_url), $.getJSON('https://download.gocd.org/amis.json'))
       .done(showReleases)
       .fail(showFailureMessage);
   };
