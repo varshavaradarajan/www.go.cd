@@ -12,8 +12,7 @@ jQuery(document).ready(function() {
       
         $this.addClass('select-hidden'); 
         $this.wrap('<div class="select"></div>');
-        var id_of_div = $this.attr('id');
-        $this.after('<div class="select-styled" id="'+id_of_div+'"></div>');
+        $this.after('<div class="select-styled"></div>');
 
         var $styledSelect = $this.next('div.select-styled');
         $styledSelect.text($this.children('option').eq(0).text());
@@ -41,16 +40,15 @@ jQuery(document).ready(function() {
       
         $listItems.click(function(e) {
             e.stopPropagation();
-            // var go_version = $styledSelect.attr('id');
             var previous_text = $styledSelect.text();
             $styledSelect.text($(this).text()).removeClass('active');
             $this.val($(this).attr('rel'));
             $list.hide();
-            var s = "table ." + previous_text;
-            var b = "table ." + $styledSelect.text();
+            var previously_selected_row = "table ." + previous_text;
+            var current_selected_row = "table ." + $styledSelect.text();
 
-            $styledSelect.closest('.table-c').find(s).hide();
-            $styledSelect.closest('.table-c').find(b).show();
+            $styledSelect.closest('.table-c').find(previously_selected_row).hide();
+            $styledSelect.closest('.table-c').find(current_selected_row).show();
             //console.log($this.val());
         });
       
@@ -60,11 +58,13 @@ jQuery(document).ready(function() {
         });
     });
 
+        $('.table-c').each(function () {
+            $(this).find('tr:gt(1)').each(function () {
+                var $this = $(this);
+                $this.hide();
+            });
 
-    $(".ap-northeast-1").each(function () {
-        var $this = $(this);
-        $this.removeClass('hidden');
-    });
+        });
 
     });
 
