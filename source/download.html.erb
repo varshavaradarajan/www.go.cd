@@ -81,17 +81,27 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
       </div>
       <div class="col-sm-4 col-md-3">
         
-        <ul class="help-links">
-          <li> <a href="#">release notes</a></li>
-          <li> <a href="#">System requirements</a></li>
-          <li> <a href="#">Server Installation Instructions</a></li>
-          <li> <a href="#">Agent Installation Instructions</a></li>
+        <ul class="help-links" id="help-links">
+          <li> <a href="https://www.gocd.org/releases">Release notes</a></li>
+          <li> <a href="https://docs.gocd.org/current/installation/system_requirements.html">System requirements</a></li>
+          <li> <a href="https://docs.gocd.org/current/installation/install/server/linux.html">Server Installation Instructions</a></li>
+          <li> <a href="https://docs.gocd.org/current/installation/install/agent/linux.html">Agent Installation Instructions</a></li>
         </ul>
-        <p>If you need help downloading, installing or using GoCD please join the <a href="#">GoCD Users Google Group</a>.</p>
+        <p>If you need help downloading, installing or using GoCD please join the <a href="https://groups.google.com/forum/#!forum/go-cd">GoCD Users Google Group</a>.</p>
       </div>
     </div>
   </div>
 </main>
+
+<script id="downloads-help-links" type="text/x-handlebars-template">
+  <li> <a href="https://www.gocd.org/releases">Release notes</a></li>
+  <li> <a href="https://docs.gocd.org/current/installation/system_requirements.html">System requirements</a></li>
+  {{#if os}}
+  <li> <a href="https://docs.gocd.org/current/installation/install/server/{{os}}.html">Server Installation Instructions</a></li>
+  <li> <a href="https://docs.gocd.org/current/installation/install/agent/{{os}}.html">Agent Installation Instructions</a></li>
+  {{/if}}
+</script>
+
 <script id="download-revisions-template" type="text/x-handlebars-template">
 {{#*inline "show-releases-for-installer-type"}}
 <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
@@ -111,7 +121,6 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
               There are two flavors of Server and Agent installers for Windows, one packaged with 64 bit JRE and the other
               with 32 bit JRE. We recommend using a Server with 64 bit JRE and an Agent with 32 bit JRE.
             </div>
-            {{elsif }}
             {{else}}
             {{> show-server-and-agent-installer}}
             {{/if}}
@@ -149,6 +158,7 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
 {{/inline}}
 {{#*inline "show-amis"}}
 <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
+  <div><p>The Demo AMI is for users to get started with GoCD. It contains both the GoCD server and agent with an existing configuration.</p></div>
   {{#with latest_ami_release}}
   <div class="row go-release {{go_version}}">
     <div class="col-sm-3 ">
@@ -180,7 +190,6 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
 {{/inline}}
 {{#*inline "show-ami-release"}}
 <h3>Demo AMI</h3>
-<p>This AMI is for users to get started with GoCD. It contains both the GoCD server and agent with an existing configuration.</p>
 {{> ami-table amis=demo_amis}}
 <h3>Server AMI</h3>
 <div>Select a region</div>
@@ -331,6 +340,14 @@ if (appVersion.indexOf("Ubuntu")!=-1) package="debian";
 if (appVersion.indexOf("RedHat")!=-1) package="redhat";
 if (appVersion.indexOf("CentOS")!=-1) package="redhat";
 $('[rel=tab-' + package + ']').click();
+});
+$(".download-nav li").on('click', function () {
+    var type_of_os = {"#tab-debian": "linux", '#tab-redhat': 'linux', "#tab-windows": "windows", '#tab-zip': 'zip', '#tab-osx': 'osx'};
+    var template = Handlebars.compile($("#downloads-help-links").html());
+    var type = $(this).find('.active').attr('href');
+    $("#help-links").html(template({
+        os: type_of_os[type]
+    }));
 });
 setupShowVerifyChecksumMessage();
 });
