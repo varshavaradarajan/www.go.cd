@@ -1,25 +1,29 @@
-var showDownloadLinks = (function($) {
-  return function(options) {
+var showDownloadLinks = (function ($) {
+  return function (options) {
     var typeOfInstallersToShow = options.typeOfInstallersToShow;
+    var showArchive = options.archive;
 
     var settingsForAllTypes = {
       stable: {
-        download_info_url : 'https://download.gocd.org/releases.json',
-        download_prefix   : 'https://download.gocd.org/binaries/',
-        version_to_show   : function(release) { return release['go_version']; }
+        download_info_url: 'https://download.gocd.org/releases.json',
+        download_prefix: 'https://download.gocd.org/binaries/',
+        version_to_show: function (release) {
+          return release['go_version'];
+        }
       },
       experimental: {
-        download_info_url : 'https://download.gocd.org/experimental/releases.json',
-        download_prefix   : 'https://download.gocd.org/experimental/binaries/',
-        version_to_show   : function(release) { return release['go_full_version']; }
+        download_info_url: 'https://download.gocd.org/experimental/releases.json',
+        download_prefix: 'https://download.gocd.org/experimental/binaries/',
+        version_to_show: function (release) {
+          return release['go_full_version'];
+        }
       }
     };
 
     var settings = settingsForAllTypes[typeOfInstallersToShow];
-    var showArchives = R.any(R.equals('archive=true'), window.location.search.substr(1).split('&'));
 
-    var dateFilter = R.curry(function(timeInSecondsSinceEpoch) {
-      if (showArchives) {
+    var dateFilter = R.curry(function (timeInSecondsSinceEpoch) {
+      if (showArchive) {
         return true;
       }
       return (new Date() - new Date(timeInSecondsSinceEpoch * 1000)) < 3600 * 24 * 366 * 1000;
@@ -27,8 +31,8 @@ var showDownloadLinks = (function($) {
 
     var releasesLessThanAYearOld = R.filter(R.where({release_time: dateFilter}));
 
-    var addURLToFiles = function(release) {
-      var addDetailsFrom = R.curry(function(release, analyticsIDPrefix, o) {
+    var addURLToFiles = function (release) {
+      var addDetailsFrom = R.curry(function (release, analyticsIDPrefix, o) {
         var afterAddingURL = R.assoc('url', settings.download_prefix + release['go_full_version'] + '/' + o["file"], o);
         var afterAddingFilename = R.assoc('filename', R.last(o["file"].split("/")), afterAddingURL, o);
         var afterAddingAnalyticsID = R.assoc('analytics_id', analyticsIDPrefix + "_" + release['go_full_version'], afterAddingFilename, o);
@@ -36,19 +40,24 @@ var showDownloadLinks = (function($) {
       });
 
       return R.evolve({
-        win:     {server: addDetailsFrom(release, 'Windows-Server'), agent: addDetailsFrom(release, 'Windows-Agent'),  server32bit: addDetailsFrom(release, 'Windows-Server-32bit'), agent32bit: addDetailsFrom(release, 'Windows-Agent-32bit')},
-        osx:     {server: addDetailsFrom(release, 'Mac-Server'),      agent: addDetailsFrom(release, 'Mac-Agent')},
-        deb:     {server: addDetailsFrom(release, 'LinuxDeb-Server'), agent: addDetailsFrom(release, 'LinuxDeb-Agent')},
-        rpm:     {server: addDetailsFrom(release, 'LinuxRpm-Server'), agent: addDetailsFrom(release, 'LinuxRpm-Agent')},
-        generic: {server: addDetailsFrom(release, 'Package-Server'),  agent: addDetailsFrom(release, 'Package-Agent')}
+        win: {
+          server: addDetailsFrom(release, 'Windows-Server'),
+          agent: addDetailsFrom(release, 'Windows-Agent'),
+          server32bit: addDetailsFrom(release, 'Windows-Server-32bit'),
+          agent32bit: addDetailsFrom(release, 'Windows-Agent-32bit')
+        },
+        osx: {server: addDetailsFrom(release, 'Mac-Server'), agent: addDetailsFrom(release, 'Mac-Agent')},
+        deb: {server: addDetailsFrom(release, 'LinuxDeb-Server'), agent: addDetailsFrom(release, 'LinuxDeb-Agent')},
+        rpm: {server: addDetailsFrom(release, 'LinuxRpm-Server'), agent: addDetailsFrom(release, 'LinuxRpm-Agent')},
+        generic: {server: addDetailsFrom(release, 'Package-Server'), agent: addDetailsFrom(release, 'Package-Agent')}
       }, release);
     };
 
-    var addDisplayVersion = R.curry(function(release) {
+    var addDisplayVersion = R.curry(function (release) {
       return R.assoc('display_version', settings.version_to_show(release), release);
     });
 
-    function compareVersions (a, b) {
+    function compareVersions(a, b) {
       var i, diff;
 
       var segmentsA = a.go_full_version.replace('-', '.').split('.');
@@ -65,21 +74,21 @@ var showDownloadLinks = (function($) {
       return segmentsA.length - segmentsB.length;
     }
 
-    var showReleases = function(data1, data2) {
+    var showReleases = function (data1, data2) {
       var releases = R.compose(releasesLessThanAYearOld, R.sort(compareVersions), R.map(addURLToFiles), R.map(addDisplayVersion))(data1[0]);
       var amiReleases = R.sortBy(R.prop('go_version'))(data2[0]).reverse();
       var template = Handlebars.compile($("#download-revisions-template").html());
       $("#downloads").html(template({
-        latest_release     : R.head(releases),
-        all_other_releases : R.tail(releases),
-        latest_version     : releases[0].go_version,
+        latest_release: R.head(releases),
+        all_other_releases: R.tail(releases),
+        latest_version: releases[0].go_version,
         latest_ami_release: R.head(amiReleases),
         all_other_ami_releases: R.tail(amiReleases)
 
       }));
     };
 
-    var showFailureMessage = function(error) {
+    var showFailureMessage = function (error) {
       $("#downloads").html('<p class="not-loaded">Sorry. Something went wrong and we could not list the download links. \
         Please report <a href="https://github.com/gocd/www.go.cd/issues">this issue</a>.</p>');
       console.log("Error: " + error);
@@ -91,50 +100,43 @@ var showDownloadLinks = (function($) {
   };
 })(jQuery);
 
-var setupShowVerifyChecksumMessage = (function($) {
-  return function() {
-    $("#downloads").on('click', '.verify-checksum', function(evt) {
+var setupShowVerifyChecksumMessage = (function ($) {
+  return function () {
+    $("#downloads").on('click', '.verify-checksum', function (evt) {
       var checksumElement = $(evt.currentTarget);
       var template = Handlebars.compile($("#verify-checksum-message-template").html());
       $("#verify-checksum-message").html(template({
-        filename  : checksumElement.data("filename"),
-        md5sum    : checksumElement.data("md5sum"),
-        sha1sum   : checksumElement.data("sha1sum"),
-        sha256sum : checksumElement.data("sha256sum")
+        filename: checksumElement.data("filename"),
+        md5sum: checksumElement.data("md5sum"),
+        sha1sum: checksumElement.data("sha1sum"),
+        sha256sum: checksumElement.data("sha256sum")
       }));
-       $('body').addClass("o-h");
+      $('body').addClass("o-h");
     });
   };
 })(jQuery);
 
-
-
-
-
-
 //left side navigation
 
-
-jQuery(document).ready(function($) {
-  var highlightCorrectNavigationSectionBasedOnLocation = function() {
+jQuery(document).ready(function ($) {
+  var highlightCorrectNavigationSectionBasedOnLocation = function () {
     $('nav.download-nav a').removeClass('active');
     $("nav.download-nav a[data-section='" + window.location.hash + "']").addClass('active');
   };
 
 
-    $(".download-nav li a").click(function() {
-      $(".tab_content").hide();
-      var activeTab = $(this).attr("href");
-      console.log(activeTab);
-      $(activeTab).fadeIn();
-      $(".download-nav li a").removeClass("active");
-      $(this).addClass("active");
+  $(".download-nav li a").click(function () {
+    $(".tab_content").hide();
+    var activeTab = $(this).attr("href");
+    console.log(activeTab);
+    $(activeTab).fadeIn();
+    $(".download-nav li a").removeClass("active");
+    $(this).addClass("active");
 
-      $(".tab-accordion_heading").removeClass("d_active");
-      $(".tab-accordion_heading[rel^='"+activeTab+"']").addClass("d_active");
+    $(".tab-accordion_heading").removeClass("d_active");
+    $(".tab-accordion_heading[rel^='" + activeTab + "']").addClass("d_active");
 
   });
-
 });
 
 
