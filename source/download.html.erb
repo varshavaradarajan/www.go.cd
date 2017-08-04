@@ -16,9 +16,6 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
     <div class="row">
       <div class="col-sm-12 col-md-3 sidebar">
         <button class="get-start-btn"><i class="fa fa-bars"></i></button>
-        <input type="radio" id="stable" name="typeOfDownloads" checked="checked" value="stable">Stable
-        <input type="radio" id="experimental" name="typeOfDownloads" value="experimental">Experimental
-        <input type="radio" id="archive" name="typeOfDownloads" value="archive">Archived
 
         <nav class="sidebar-nav download-nav">
           <ul class="verticalnav">
@@ -78,6 +75,12 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
             </div>
           </div>
         </script>
+        <div class="release-type">
+          <span>Release Type: </span>
+          <input type="radio" id="stable" name="typeOfDownloads" checked="checked" value="stable">Stable
+          <input type="radio" id="experimental" name="typeOfDownloads" value="experimental">Experimental
+          <input type="radio" id="archive" name="typeOfDownloads" value="archive">Archived
+        </div>
         <div id="downloads">
           <div class="load-message">
             <i class="fa fa-spinner fa-spin fa-5x" aria-hidden="true"></i>
