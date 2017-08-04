@@ -76,14 +76,18 @@ var showDownloadLinks = (function ($) {
 
     var showReleases = function (data1, data2) {
       var releases = R.compose(releasesLessThanAYearOld, R.sort(compareVersions), R.map(addURLToFiles), R.map(addDisplayVersion))(data1[0]);
-      var amiReleases = R.sortBy(R.prop('go_version'))(data2[0]).reverse();
+      if (typeOfInstallersToShow == 'stable') {
+        var amiReleases = R.sortBy(R.prop('go_version'))(data2[0]).reverse();
+        var latest_ami_release = R.head(amiReleases);
+        var other_ami_releases = R.tail(amiReleases);
+      }
       var template = Handlebars.compile($("#download-revisions-template").html());
       $("#downloads").html(template({
         latest_release: R.head(releases),
         all_other_releases: R.tail(releases),
         latest_version: releases[0].go_version,
-        latest_ami_release: R.head(amiReleases),
-        all_other_ami_releases: R.tail(amiReleases)
+        latest_ami_release: latest_ami_release,
+        all_other_ami_releases: other_ami_releases
 
       }));
     };

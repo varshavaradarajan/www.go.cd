@@ -180,6 +180,7 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
   </div>
   {{/inline}}
   {{#*inline "show-amis"}}
+  {{#if latest_ami_release}}
   <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
     <div>
       <p>The Demo AMI is for users to get started with GoCD. It contains both the GoCD server and agent with an existing
@@ -212,6 +213,11 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
       {{/each}}
     </div>
   </div>
+  {{else}}
+  <div id="{{{tab_id}}}" class="tab_content {{{installer_type}}}">
+    <p>We do not provide experimental AMIs.</p>
+  </div>
+  {{/if}}
   {{/inline}}
   {{#*inline "show-ami-release"}}
   <h3>Demo AMI</h3>
