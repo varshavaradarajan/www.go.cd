@@ -1,11 +1,29 @@
 //horizontal tabs
-var startTabContainer = function($) {
+var startTabContainer = function($, packageName) {
+  var package_to_rel = {
+    "debian": "#tab-debian",
+    'redhat': '#tab-redhat',
+    "windows": "#tab-windows",
+    'zip': '#tab-zip',
+    'osx': '#tab-osx'
+  };
+
+  var package_to_rel1 = {
+    "debian": "deb",
+    'redhat': 'rpm',
+    "windows": "win",
+    'zip': 'generic',
+    'osx': 'osx'
+  };
+
   $(".tab_content").hide();
   $(".tab_content:first").show();
-  $("ul.tabs li:first").addClass("active");
-  $(".tab_container .tab-accordion_heading:first").addClass("d_active");
+  $("a[href=\"" + package_to_rel[packageName] + "\"]").addClass("active");
+  $(".tab-accordion_heading[rel^='"+package_to_rel1[packageName]+"']").addClass("d_active");
+  chooseTabContainer($);
+};
 
-  //tab mode
+var chooseTabContainer = function ($) {
   $("ul.tabs li , ul.items li").click(function() {
     $(".tab_content").hide();
     var activeTab = $(this).attr("rel");
@@ -37,12 +55,10 @@ var startTabContainer = function($) {
     var dtarget= $('.tab_container');
     $('html,body').animate({
       scrollTop: dtarget.offset().top + -100
-       }, 1000);
+    }, 1000);
   });
-
   if(window.location.hash) {
     release = window.location.hash.substring(1).replace(/\./g,'-');
-    $('[rel=tab-' + release + ']').click();
+    $('[rel=' + release + ']').click();
   }
-
 };

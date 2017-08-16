@@ -22,7 +22,7 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
             <li class="dropdown open">
               <span class="head">OS Types</span>
               <ul>
-                <li><%= link_to "RPM/YUM", "#tab-redhat", {"class" => "active"} %></li>
+                <li><%= link_to "RPM/YUM", "#tab-redhat" %></li>
                 <li><%= link_to "Debian/APT", "#tab-debian" %></li>
                 <li><%= link_to "Zip", "#tab-zip" %></li>
                 <li><%= link_to "Windows", "#tab-windows" %></li>
@@ -361,41 +361,29 @@ meta_keywords: "GoCD download, go agent download, go cd download, install gocd"
   jQuery(document).ready(function ($) {
     var typeOfInstallersToShow = "stable";
     var archive = false;
-    $('input[type=radio][name=typeOfDownloads]').on('change', function () {
+    var packageName = determinePackageNameBasedOnOS();
 
+    showDownloadLinks({typeOfInstallersToShow: typeOfInstallersToShow})
+      .then(function () {
+        startTabContainer($, packageName);
+      }).then(function () {
+      $('[rel=tab-' + packageName + ']').click();
+
+    });
+
+    $('input[type=radio][name=typeOfDownloads]').on('change', function () {
       typeOfInstallersToShow = $(this).val();
-      if (typeOfInstallersToShow == "archive") {
+      if (typeOfInstallersToShow === "archive") {
         archive = true;
         typeOfInstallersToShow = "stable";
       }
+      else {
+        archive = false;
+      }
       showDownloadLinks({typeOfInstallersToShow: typeOfInstallersToShow, archive: archive })
         .then(function () {
-          startTabContainer($);
-        }).then(function () {
-        var package = "zip";
-        var appVersion = navigator.appVersion;
-        if (appVersion.indexOf("Win") != -1) package = "windows";
-        if (appVersion.indexOf("Mac") != -1) package = "osx";
-        if (appVersion.indexOf("Debian") != -1) package = "debian";
-        if (appVersion.indexOf("Ubuntu") != -1) package = "debian";
-        if (appVersion.indexOf("RedHat") != -1) package = "redhat";
-        if (appVersion.indexOf("CentOS") != -1) package = "redhat";
-        $('[rel=tab-' + package + ']').click();
-      });
-    });
-    showDownloadLinks({typeOfInstallersToShow: typeOfInstallersToShow})
-      .then(function () {
-        startTabContainer($);
-      }).then(function () {
-      var package = "zip";
-      var appVersion = navigator.appVersion;
-      if (appVersion.indexOf("Win") != -1) package = "windows";
-      if (appVersion.indexOf("Mac") != -1) package = "osx";
-      if (appVersion.indexOf("Debian") != -1) package = "debian";
-      if (appVersion.indexOf("Ubuntu") != -1) package = "debian";
-      if (appVersion.indexOf("RedHat") != -1) package = "redhat";
-      if (appVersion.indexOf("CentOS") != -1) package = "redhat";
-      $('[rel=tab-' + package + ']').click();
+          chooseTabContainer($);
+        })
     });
     $(".download-nav li").on('click', function () {
       var type_of_os = {

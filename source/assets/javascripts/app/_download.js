@@ -120,6 +120,19 @@ var setupShowVerifyChecksumMessage = (function ($) {
   };
 })(jQuery);
 
+var determinePackageNameBasedOnOS = function() {
+  var appVersion = navigator.appVersion;
+  var packageName = 'zip';
+
+  if (appVersion.indexOf("Win") !== -1) packageName = "windows";
+  if (appVersion.indexOf("Mac") !== -1) packageName = "osx";
+  if (appVersion.indexOf("Debian") !== -1) packageName = "debian";
+  if (appVersion.indexOf("Ubuntu") !== -1) packageName = "debian";
+  if (appVersion.indexOf("RedHat") !== -1) packageName = "redhat";
+  if (appVersion.indexOf("CentOS") !== -1) packageName = "redhat";
+
+  return packageName
+};
 //left side navigation
 
 jQuery(document).ready(function ($) {
