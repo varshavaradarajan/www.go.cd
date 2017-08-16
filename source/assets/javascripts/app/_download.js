@@ -128,7 +128,6 @@ jQuery(document).ready(function ($) {
     $("nav.download-nav a[data-section='" + window.location.hash + "']").addClass('active');
   };
 
-
   $(".download-nav li a").click(function () {
     $(".tab_content").hide();
     var activeTab = $(this).attr("href");
